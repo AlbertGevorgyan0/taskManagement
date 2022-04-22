@@ -7,4 +7,3 @@ const store = createStore(combineReducers({
     todos:todos,
 })
 export default store
-
