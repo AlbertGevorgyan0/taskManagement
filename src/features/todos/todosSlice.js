@@ -4,6 +4,10 @@ export function todosReducer(state=[],action) {
             ...state,
             action.payload.newList
         ]
+    }else if(action.type ==="update-list"){
+        console.log("action.payload",action.payload.list);
+        state.find((item)=>item.id == action.payload.list.objId).name = action.payload.list.listName
+        return [...state]
     }else if(action.type ==="delete-list"){
         for (let i = 0; i < state.length; i++) {
             if(state[i].name == action.payload.list){
@@ -56,6 +60,15 @@ export function createNewList(newList) {
         type:"todo-add",
         payload:{
             newList:newList
+        }
+    }
+}
+
+export function updateMyList(list) {
+    return{
+        type:"update-list",
+        payload:{
+            list:list
         }
     }
 }
