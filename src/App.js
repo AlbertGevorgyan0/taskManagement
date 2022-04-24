@@ -180,18 +180,42 @@ const App=()=>{
                   document.querySelector("#openUpdateModal").click()
                   document.getElementById("updDescription").style.border='4px solid red'
                   document.getElementById("updTask").style.border='4px solid red'
+                  document.querySelector(".d1").style.display="none"
+                  document.querySelector(".bt1").style.display="none"
+                  document.querySelector(".btDelete").style.display="none"
+                  document.querySelector("#updateTaskModalLabel").style.display="none"
+                  document.querySelector(".d2").style.display="block"
+                  document.querySelector(".bt2").style.display="block"
+                  document.querySelector(".btCancel").style.display="block"
+                  document.querySelector("#updateTaskModalLabel1").style.display="block"
                 })
               }else if(updateTaskName.length > 0 && updateTaskDescription.length === 0){
                 wait().then(()=>{
                   document.getElementById("updTask").style.border='1px solid black'
                   document.getElementById("updDescription").style.border='4px solid red'
                   document.querySelector("#openUpdateModal").click()
+                  document.querySelector(".d1").style.display="none"
+                  document.querySelector(".bt1").style.display="none"
+                  document.querySelector(".btDelete").style.display="none"
+                  document.querySelector("#updateTaskModalLabel").style.display="none"
+                  document.querySelector(".d2").style.display="block"
+                  document.querySelector(".bt2").style.display="block"
+                  document.querySelector(".btCancel").style.display="block"
+                  document.querySelector("#updateTaskModalLabel1").style.display="block"
                 })
-              }else{
+              }else if(updateTaskName.length === 0 && updateTaskDescription.length > 0){
                 wait().then(()=>{
                   document.getElementById("updDescription").style.border='1px solid black'
                   document.getElementById("updTask").style.border='4px solid red'
                   document.querySelector("#openUpdateModal").click()
+                  document.querySelector(".d1").style.display="none"
+                  document.querySelector(".bt1").style.display="none"
+                  document.querySelector(".btDelete").style.display="none"
+                  document.querySelector("#updateTaskModalLabel").style.display="none"
+                  document.querySelector(".d2").style.display="block"
+                  document.querySelector(".bt2").style.display="block"
+                  document.querySelector(".btCancel").style.display="block"
+                  document.querySelector("#updateTaskModalLabel1").style.display="block"
                 })
               } 
             }}>Update</button>
