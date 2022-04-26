@@ -7,7 +7,7 @@ const App=()=>{
   const myTodoList = useSelector(selectTodos)
   const dispatch = useDispatch()
 
-  const [todos,setTodos] = useState(myTodoList)
+  const [todos,setTodos] = useState(myTodoList.mytodo)
   const[currentObj, setCurrentObj]=useState(null)
   const[currentTask, setCurrentTask]=useState(null)
   const[objId,setObjId] = useState("")
@@ -219,7 +219,7 @@ const App=()=>{
                 })
               } 
             }}>Update</button>
-            <button type="button" style={{display:"none"}} className="btn btn-primary bg-danger btDelete" data-toggle="modal" data-target=".bd-animation-modal-sm" onClick={()=>{
+            <button type="button"  className="btn btn-primary bg-danger btDelete" data-toggle="modal" data-target=".bd-animation-modal-sm" onClick={()=>{
               if(updateTaskName.length > 0 && updateTaskDescription.length > 0){
                 wait().then(() =>{
                   return(
@@ -257,7 +257,7 @@ const App=()=>{
               console.log("List Name: ",updateListName);
               console.log("obj Id",objId);
               let name = updateListName
-              if(updateListName.length > 0 && updateListName.length <11 && name.match(/^[0-9a-zA-Z]+$/) && !myTodoList.find(border => border.name.toUpperCase() === name.toUpperCase()) ){
+              if(updateListName.length > 0 && updateListName.length <11 && name.match(/^[0-9a-zA-Z]+$/) && !myTodoList.mytodo.find(border => border.name.toUpperCase() === name.toUpperCase()) ){
                 wait().then(() =>{
                   return(
                     dispatch(updateMyList({
@@ -299,11 +299,11 @@ const App=()=>{
     <button type="button" className="btn btn-primary" data-toggle="modal" data-target=".bd-animation-modal-sm" 
     onClick={()=>{ 
       let name = document.getElementById("createTodoList").value
-      if(name.match(/^[0-9a-zA-Z]+$/) && !myTodoList.find(border => border.name.toUpperCase() === name.toUpperCase()) && name.length <= 11){
+      if(name.match(/^[0-9a-zA-Z]+$/) && !myTodoList.mytodo.find(border => border.name.toUpperCase() === name.toUpperCase()) && name.length <= 11){
         wait().then(() =>{
           return(
             dispatch(createNewList({
-              id:(myTodoList.length?myTodoList[myTodoList.length-1].id+1:0),
+              id:(myTodoList.mytodo.length?myTodoList.mytodo[myTodoList.mytodo.length-1].id+1:0),
               name:name,
               tasks:[]
             }))
@@ -318,7 +318,7 @@ const App=()=>{
 
     <div style={{display:"flex",justifyContent:"center", flexWrap:"wrap"}}>
       {
-        myTodoList.map((obj)=>{
+        myTodoList.mytodo.map((obj)=>{
           return (<div 
               key={obj.id} 
               style={{width:"300px",height:"400px", border:"2px solid lime", margin:"50px auto"}}
@@ -340,7 +340,7 @@ const App=()=>{
                     wait().then(() =>{
                       return(
                         dispatch(deleteList(
-                          obj.name
+                          obj.id
                         ))
                       )
                     })
@@ -362,8 +362,8 @@ const App=()=>{
                 >
                   <button style={{width:"100%",border:"none", background:'none'}} type="button" className="btn btn-primary" data-toggle="modal" data-target="#updateTaskModal" 
                   onClick={()=>{
-                    setUpdateTaskName(myTodoList[obj.id].tasks[index].taskName)
-                    setUpdateTaskDescription(myTodoList[obj.id].tasks[index].description)
+                    setUpdateTaskName(myTodoList.mytodo[obj.id].tasks[index].taskName)
+                    setUpdateTaskDescription(myTodoList.mytodo[obj.id].tasks[index].description)
                     setUpdateTask({objId:obj.id, taskId:index})
                   }}>
                     

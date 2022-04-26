@@ -1,54 +1,62 @@
-export function todosReducer(state=[],action) {
-    if(action.type ==="todo-add"){
-        return [
-            ...state,
-            action.payload.newList
-        ]
-    }else if(action.type ==="update-list"){
-        console.log("action.payload",action.payload.list);
-        state.find((item)=>item.id == action.payload.list.objId).name = action.payload.list.listName
-        return [...state]
-    }else if(action.type ==="delete-list"){
-        for (let i = 0; i < state.length; i++) {
-            if(state[i].name == action.payload.list){
-                state.splice(i, 1)
+export function todosReducer(state={},action) {
+    switch (action.type) {
+        case 'todo-add':
+            return{
+                ...state, 
+                mytodo:[
+                    ...state.mytodo,
+                    action.payload.newList
+                ]
             }
-        }
-        return [...state]
-    }else if(action.type ==="add-task"){
-        let newArr = [...state]
-        state.find((item)=>item.id == action.payload.newTask.id)
-            .tasks.push({
-                taskName:action.payload.newTask.taskName,
-                description:action.payload.newTask.description
-            })
-        return newArr
-    }else if(action.type ==="update-task"){
-        let newArr = [...state]
-        let a = state.find((item)=>item.id == action.payload.newTask.objId.objId)
-            .tasks.splice(action.payload.newTask.objId.takId, 1, action.payload.newTask.task)
-        return newArr
-    }else if(action.type ==="delete-task"){
-        let newArr = [...state]
-        let a = state.find((item)=>item.id == action.payload.deleteTask.objId.objId)
-            .tasks.splice(action.payload.deleteTask.objId.takId, 1)
-        return newArr
+        case "update-list":
+            const index = state.mytodo.findIndex(todo => todo.id == action.payload.list.objId);
+            const newArray = [...state.mytodo];
+            newArray[index].name = action.payload.list.listName
+            return { 
+                ...state, 
+                mytodo: newArray, 
+            }
+        case "delete-list":
+            const filteredTodos = state.mytodo.filter(todo => todo.id !== action.payload.listId)
+            console.log(filteredTodos);
+            return { 
+                ...state, 
+                mytodo: filteredTodos
+            }
+        case "add-task":
+            const newArr = [...state.mytodo];
+            console.log("ok",newArr);
+            newArr[action.payload.newTask.id].tasks.push(
+                {
+                    taskName:action.payload.newTask.taskName,
+                    description:action.payload.newTask.description
+                }
+            )
+            return { 
+                ...state, 
+                mytodo: newArr
+            }
+        case "update-task":
+            const listArray = [...state.mytodo];
+            listArray[action.payload.newTask.objId.objId]
+            .tasks.splice(action.payload.newTask.objId.taskId, 1, action.payload.newTask.task)
+            return { 
+                ...state, 
+                mytodo: listArray, 
+            }
+        case "delete-task":
+            const listArr = [...state.mytodo];
+            console.log(action.payload.deleteTask.objId);
+            listArr[action.payload.deleteTask.objId.objId]
+                .tasks.splice(action.payload.deleteTask.objId.taskId, 1)
+            return { 
+                ...state, 
+                mytodo: listArr, 
+            }
+        default:
+            return state
     }
-    return state
 }
-
-export const todos = [
-    {
-        id:0,
-        name:"JS",
-        tasks:[{taskName:"45", description:"ok"}]
-    },
-    {
-        id:1,
-        name:"react",
-        tasks:[{taskName:"465", description:"ok"}]
-    },
-]
 
 export function selectTodos(state) {
         console.log("New State", state);
@@ -73,11 +81,11 @@ export function updateMyList(list) {
     }
 }
 
-export function deleteList(list) {
+export function deleteList(listId) {
     return{
         type:"delete-list",
         payload:{
-            list:list
+            listId:listId
         }
     }
 }
